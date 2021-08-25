@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_excel('PDBrt data to upload.xlsx')
+df = pd.read_excel('complex-data-progress.xlsx', sheet_name='data')
 
 # protein freq - bar plot
 protein_plot = sns.countplot(x='Protein Name', data=df)
@@ -13,7 +13,6 @@ plt.savefig('distribution_of_protein_names.png')
 # protein freq - pie plot
 no_of_proteins = df['Protein Name'].value_counts()
 # no_of_proteins.plot.pie(autopct="%.1f%%");
-pie, ax = plt.subplots(figsize=[20, 8])
 labels = no_of_proteins.keys()
 numbers = no_of_proteins.array
 
@@ -26,10 +25,12 @@ def make_autopct(values):
     return my_autopct
 
 
-plt.pie(x=no_of_proteins, autopct=make_autopct(numbers), explode=[0.15] * len(no_of_proteins), labels=labels,
-        pctdistance=0.5)
-plt.title("Distribution of proteins", fontsize=14)
-plt.savefig('pie_plot_protein_names.png')
+colors = ['#066376', '#00789C', '#007A83', '#30A9AF', '#81F5FF', '#E2B288', '#FFEBC8']
+plt.pie(x=no_of_proteins, autopct=make_autopct(numbers), explode=[0.13] * len(no_of_proteins), labels=labels,
+        pctdistance=0.85, labeldistance=1.1, colors=colors)
+# plt.title("distribution of proteins", fontsize=12, pad=22)
+# plt.show()
+plt.savefig('pie_plot_proteins.png')
 
 # Frequencies of chemical compounds
 df = df.rename(columns={"Protein Name": "proteins", "Ligand Code": "compound"})
